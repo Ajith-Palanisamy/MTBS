@@ -5,7 +5,8 @@ project folder name is mtbs
 
 1.This is Maven project created using Eclipse
 2.In the pom.xml have to specify dependancy code for required jars
-3.Inside src/main/java you have all the java classes.I have created separete package for each entity..Like Ticket,User..
+3.Inside src/main/java you have all the java classes.Iwrote all the DAO and Resources into single DAO and single resource class.
+In this ,for some APIs only I retured pojo class object or list of objects (User,Movie,Screen) which converted implicitly to JSON. for all Others I directly returned JSONObject or JSONArray 
 Each package has corresponding POJO class,Resource class where API is written and DAO class for DB operations
 4.inside src/main/webapp/js you have js files where jquery is writte.
 5.inside src/main/webapp three html files are there.
