@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>MTBS-Admin</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="./js/admin.js"></script>
+
+<style>
+
+th,td {
+   padding :5px;
+   }
+
+</style>
+
+</head>
+<body id="body-content">
+
+<div id="admin-home-div">
+   <h1>Welcome Admin</h1>
+   <div id="movies-link-div"><a href='javascript:void(0)' id="movies-link">Movies</a></div>
+   <div id="theaters-link-div"><a href='javascript:void(0)' id="theaters-link">Theaters</a></div>
+   <div id="offers-link-div"><a href='javascript:void(0)' id="offers-link">Offers</a></div>
+   
+</div>
+
+
+
+<div id="add-form-div" style="display: none;">
+            	<h1>Add Movie</h1><br>
+                <form id="add-form"  method="POST">
+                <table>
+                <tr><td>
+                <label for="name">Movie name</label>
+                </td><td>
+                <input type="text" name="name" id="name" required><br>
+                </td></tr>
+                <tr><td>
+                <label for="certificate">Certificate</label>
+                </td><td>
+                <select name="certificate" id="certificate"  required>
+				  <option value="A">A</option>
+				  <option value="U">U</option>
+				  <option value="A/U">A/U</option>
+				</select>
+				<br></td></tr>
+				<tr><td>
+				<label for="language">Language</label><br>
+				</td><td>
+					<input type="checkbox" id="language1" name="language1" value="1">
+					<label for="language1">Tamil</label><br>
+					<input type="checkbox" id="language2" name="language2" value="2">
+					<label for="language2">English</label><br>
+					<input type="checkbox" id="language3" name="language3" value="3">
+					<label for="language3">Hindi</label><br>
+					</td></tr>
+				<tr><td>
+                <lable for="director">Director Name</lable>
+                </td><td>
+                <input type="text" name="director" id="director"  required><br>
+                 </td></tr>
+                <tr><td>
+                <lable for="description">Description</lable>
+                </td><td>
+                <textarea name="description" rows="5" cols="40" id="description" max-length="100" required></textarea><br>
+                  </td></tr>
+                <tr><td>
+                <lable for="duration">Duration</lable>
+                </td><td>
+                <input type="time" name="duration" id="duration" min="01:30:00" max="04:00:00"  required><br>
+                  </td></tr>
+                <tr><td>
+                <lable for="image">Movie Poster</lable>
+                </td><td>
+                <input type="text" name="image" id="image" required placeholder="paste Url Here without double quotes"><br>
+                  </td></tr>
+                <tr><td></td><td>
+                <button type="submit">Add</button>
+                  </td></tr>
+                  </table>
+                </form>  
+</div>
+  
+<div id="main-div" style="display: none;">
+<h1>All Movies</h1>
+    <table id="movies-table" border="1">
+    <tr>
+    <td>Movie</td>
+    <td>Edit</td>
+    <td>Delete</td>
+    </tr>
+    </table>
+	<ul id="data-list"></ul>
+</div>
+
+<div id="edit-form-div" style="display: none;">
+            	<h1>Edit Movie</h1><br>
+                <form id="edit-form"  method="POST">
+                <table>
+                <tr><td>
+                <label for="name">Movie name</label>
+                </td><td>
+                <input type="text" name="name" id="editname" required><br>
+                </td></tr>
+                <tr><td>
+                <label for="certificate">Certificate</label>
+                </td><td>
+                <select name="certificate" id="editcertificate"  required>
+				  <option value="A">A</option>
+				  <option value="U">U</option>
+				  <option value="A/U">A/U</option>
+				</select>
+				<br></td></tr>
+				<tr><td>
+				<label for="language">Language</label><br>
+				</td><td>
+					<input type="checkbox" id="editlanguage1" name="language1" value="1">
+					<label for="language1">Tamil</label><br>
+					<input type="checkbox" id="editlanguage2" name="language2" value="2">
+					<label for="language2">English</label><br>
+					<input type="checkbox" id="editlanguage3" name="language3" value="3">
+					<label for="language3">Hindi</label><br>
+					</td></tr>
+				<tr><td>
+                <lable for="director">Director Name</lable>
+                </td><td>
+                <input type="text" name="director" id="editdirector"  required><br>
+                 </td></tr>
+                <tr><td>
+                <lable for="description">Description</lable>
+                </td><td>
+                <textarea name="description" rows="5" cols="40" id="editdescription" max-length="100" required></textarea><br>
+                  </td></tr>
+                <tr><td>
+                <lable for="duration">Duration</lable>
+                </td><td>
+                <input type="time" name="duration" id="editduration" min="01:30:00" max="04:00:00"  required><br>
+                  </td></tr>
+                <tr><td>
+                <lable for="image">Movie Poster</lable>
+                </td><td>
+                <input type="text" name="image" id="editimage" required placeholder="paste Url Here without double quotes"><br>
+                  </td></tr>
+                <tr><td></td><td>
+                <button type="submit" id="editsubmit">Update</button>
+                  </td></tr></table>
+                </form>  
+</div>
+
+<div id="add-offer-div" style="display: none;">
+<h2>Add New Offer</h2>
+<form id="add-offer-form">
+                <table>
+                <tr><td>
+                <label for="offer-name">Offer Name </label>
+                </td><td>
+                <input type="text"  name="offer-name" id="offer-name" required>
+                </td></tr>
+                <tr><td>
+                <label for="no-of-tickets">No of Tickets</label>
+                </td><td>
+                <input type="number" min="1" max="10" name="no-of-tickets" id="no-of-tickets" required><br>
+				</td></tr>
+				<tr><td>
+                <label for="discount">Discount % /ticket</label>
+                </td><td>
+                <input type="number" min="1" max="100" name="discount" id="discount" required><br>
+				</td></tr>
+				<tr><td>
+                <label for="start-date">Start Date</label>
+                </td><td>
+                <input type="date" name="start-date" id="start-date" required><br>
+                </td></tr>
+                <tr><td>
+                <label for="end-date">End Date</label>
+                </td><td>
+                <input type="date" name="end-date" id="end-date" required><br>
+                </td></tr>
+                <tr><td>   
+                <tr><td></td><td>
+                <button id="add-offer-button" type="submit">Add</button>
+                </td></tr>
+                </table>
+                </form> 
+</div>
+
+<div id="offers-div" style="display: none;">
+<h2>Offers</h2>
+<table id="offers-table" border="1">
+<tr>
+    <th>#</th>
+	<th>Offer</th>
+	<th>No.of Tickets</th>
+	<th>Discount %</th>
+	<th>Start Date</th>
+	<th>End Date</th>
+	<th>Edit</th>
+	<th>Delete</th>
+</tr>
+
+</table>
+
+</div>
+
+<div id="edit-offer-div" style="display: none;">
+<h2>Edit Offer</h2>
+<form id="edit-offer-form">
+                <table >
+                <tr><td>
+                <label for="edit-offer-name">Offer Name </label>
+                </td><td>
+                <input type="text"  name="edit-offer-name" id="edit-offer-name" required>
+                </td></tr>
+                <tr><td>
+                <label for="edit-no-of-tickets">No:of Tickets</label>
+                </td><td>
+                <input type="number" min="1" max="10" name="edit-no-of-tickets" id="edit-no-of-tickets" required><br>
+				</td></tr>
+				<tr><td>
+                <label for="edit-discount">Discount % /ticket</label>
+                </td><td>
+                <input type="number" min="1" max="100" name="edit-discount" id="edit-discount" required><br>
+				</td></tr>
+				<tr><td>
+                <label for="edit-start-date">Start Date</label>
+                </td><td>
+                <input type="date" name="edit-start-date" id="edit-start-date" required><br>
+                </td></tr>
+                <tr><td>
+                <label for="edit-end-date">End Date</label>
+                </td><td>
+                <input type="date" name="edit-end-date" id="edit-end-date"   required><br>
+                </td></tr>
+                <tr><td>   
+                <tr><td></td><td>
+                <button id="edit-offer-button" type="submit">Update</button>
+                </td></tr>
+                </table>
+                </form> 
+</div>
+
+<div id="theater-collection" style="display: none;">
+   <h2></h2>
+   <table id="theater-collection-table" border="1">
+   <tr>
+   		 		<th>#</th>
+                <th>Screen Name</th>
+                <th>Collection</th>
+   </tr>
+   </table>
+   </div>
+
+
+<div id="add-theater-div" style="display: none;">
+<h2>Add New Theater</h2>
+<form id="add-theater-form">
+                <table>
+                <tr><td>
+                <label for="theater-name">Theater Name </label>
+                </td><td>
+                <input type="text"  name="theater-name" id="theater-name" required>
+                </td></tr>
+                <tr><td>
+                <label for="theater-manager">Manager Email</label>
+                </td><td>
+                <input type="email"  name="theater-manager" id="theater-manager" required><br>
+				</td></tr>
+				<tr><td>
+                <label for="theater-district">City</label>
+                </td><td>
+                <input type="text"  name="theater-district" id="theater-district" required><br>
+				</td></tr>
+                <tr><td>   
+                <tr><td></td><td>
+                <button id="add-theater-button" type="submit">Add</button>
+                </td></tr>
+                </table>
+                </form> 
+</div>
+<br>
+<div id="theaters-div" style="display: none;">
+<h2>Theaters</h2>
+<table id="theaters-table" border="1">
+<tr>
+    <th>#</th>
+	<th>Theater Name</th>
+	<th>Manager</th>
+	<th>City</th>
+	<th>Collection</th>
+	<th>Edit</th>
+	<th>Remove</th>
+</tr>
+</table>
+</div>
+<br>
+<div id="edit-theater-div" style="display: none;">
+<h2>Edit Theater</h2>
+<form id="edit-theater-form">
+                <table>
+                <tr><td>
+                <label for="edit-theater-name">Theater Name </label>
+                </td><td>
+                <input type="text"  name="edit-theater-name" id="edit-theater-name" required>
+                </td></tr>
+                <tr><td>
+                <label for="edit-theater-manager">Manager Email</label>
+                </td><td>
+                <input type="email"  name="edit-theater-manager" id="edit-theater-manager" required><br>
+				</td></tr>
+				<tr><td>
+                <label for="edit-theater-district">City</label>
+                </td><td>
+                <input type="text"  name="edit-theater-district" id="edit-theater-district" required><br>
+				</td></tr>
+                <tr><td>   
+                <tr><td></td><td>
+                <button id="edit-theater-button" type="submit">Update</button>
+                </td></tr>
+                </table>
+                </form> 
+</div>
+
+<br>
+    <button id="backButton">Back</button>
+</body>
+</html>

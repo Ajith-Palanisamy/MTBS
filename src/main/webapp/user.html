@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MTBS-User</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./js/user.js"></script>
+  <style>
+  
+  td,th{
+   padding:5px;
+  }
+  
+  .seat {
+      display: inline-block;
+      width: 20px;
+      box-sizing:border-box;
+      height: 20px;
+      margin: 5px;
+      border: 3px solid #ccc;
+      background-color: #eee;
+    }
+    
+    .path {
+      visibility :hidden;
+    }
+    .char {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+      border: 1px solid white;
+    }
+    .selected {
+      background-color: red;
+      border-color: red;
+    }
+    
+    .vip {
+     border-color: green;
+    }
+    
+    .premium {
+     border-color: SlateBlue;
+    }
+    
+    .booked {
+     background-color:black;
+     border-color:black;
+    }
+    
+    
+    #screen {
+	  text-align:center;
+   }
+   
+   #seating-container{
+   	  display: inline-block; 
+	  padding: 10px;
+   }
+   
+  </style>
+  </head>
+  <body id="body-content">
+  
+  <div id="users">
+  	<h1>Users</h1>
+  	<ul id="user-list"></ul>
+  </div>
+  
+  <div id="latest-movies" style="display: none;">
+  	<h1>Latest Movies</h1>
+  	<ul id="latest-movie-list"></ul>
+  </div>
+  
+  <div id="upcoming-movies" style="display: none;">
+  	<h1>Upcoming Movies</h1>
+  	<ul id="upcoming-movie-list"></ul>
+  </div>
+  
+  <div id="your-bookings-link-div" style="display: none;">
+  <a id="your-bookings-link" href="#" >Your Bookings</a>
+  </div>
+  
+  
+  <div id="view-tickets-div"  style="display: none;">
+  <h2></h2>
+  <table id="view-tickets-table" border="1">
+    <tr>
+      <th>#</th>
+      <th>Seat Number</th>
+      <th>Seat Type</th>
+      <th>Prize</th>
+   </tr>
+   </table>
+  </div>
+  
+  <div id="your-bookings"  style="display: none;">
+  <h2>Your-Bookings</h2>
+  <table id="your-bookings-table" border="1">
+	<tr>
+					
+					<th>Movie</th>
+	                <th>Show Date</th>
+	                <th>Show Time</th>
+	                <th>Language</th>
+	                <th>Screen</th>
+	                <th>Theater</th>
+	                <th>Seats</th>
+	                <th>Offer</th>
+	                <th>Discount</th>
+	                <th>Action</th>
+	</tr>
+	</table>
+  </div>
+  
+  <div id="cancelled-bookings"  style="display: none;">
+  <h2>Cancelled-Bookings</h2>
+  <table id="cancelled-bookings-table" border="1">
+	<tr>
+				
+					<th>Movie</th>
+	                <th>Show Date</th>
+	                <th>Show Time</th>
+	                <th>Language</th>
+	                <th>Screen</th>
+	                <th>Theater</th>
+	                <th>Seats</th>
+	                <th>Total Amount</th>
+	                <th>Refunded</th>
+	                <th>Status</th>
+	                
+	</tr>
+	</table>
+  </div>
+  
+  <div id="shows-div"  style="display: none;">
+    <h2>Shows</h2>
+	<table id="shows-table" border="1">
+	<tr>
+	               
+	                <th>Show Date</th>
+	                <th>Show Time</th>
+	                <th>Language</th>
+	                <th>Screen</th>
+	                <th>Theater</th>
+	                <th>Action</th>
+	            </tr>
+	</table>
+</div>
+
+
+<div id="offers" style="display: none;">
+<h2>Offers</h2>
+<ul id="offer-list"></ul>
+</div>
+  <div id="seating-container" style="display: none;">
+    <h1></h1>
+    <div id="result-seating-layout">
+    </div>
+    <h3 id="screen">---Screen this way---</h3>
+    <div class="seat vip">&nbsp</div> - VIP&nbsp<span id="vip-prize"></span><br>
+    <div class="seat premium">&nbsp</div> - Premium&nbsp<span id="premium-prize"></span><br>
+    <div class="seat ">&nbsp</div> - Normal&nbsp<span id="normal-prize"></span><br>
+    <div class="seat booked">&nbsp</div> - Booked<br>
+    <br>
+    <table id="selected-seats-table" border="1">
+    <tr>
+      <th>#</th>
+      <th>Seat Number</th>
+      <th>Seat Type</th>
+      <th>Prize</th>
+   </tr>
+    </table>
+    <br>
+     <button id="confirm-button">Confirm Tickets</button> 
+  </div>
+   
+   <br>
+    <button id="backButton">Back</button>
+   
+  </body>
+</html>

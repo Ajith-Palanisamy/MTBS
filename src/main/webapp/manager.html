@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MTBS-Manager</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./js/manager.js"></script>
+  
+  <style>
+    .seat {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      background-color: #eee;
+    }
+    
+    .path {
+      visibility :hidden;
+    }
+    .char {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+      border: 1px solid white;
+    }
+    .selected {
+      background-color: brown;
+    }
+    
+    .vip {
+     background-color: green;
+    }
+    
+    .premium {
+     background-color: yellow;
+    }
+    
+   #screen {
+	  text-align:center;
+   }
+   #seating-container{
+   	  display: inline-block; 
+	  padding: 10px;
+   }
+   
+   #result-seating-container{
+   	  display: inline-block; 
+	  padding: 10px;
+   }
+   
+   th,td {
+   padding :5px;
+   }
+   
+   
+  </style>
+</head>
+<body id="body-content">
+<div id="managers">
+  	<h1>Theater-Managers</h1>
+  	<ul id="manager-list"></ul>
+  </div>
+  
+   <div id="theater-collection" style="display: none;">
+   <h2></h2>
+   <table id="theater-collection-table" border="1">
+   <tr>
+   		 		<th>#</th>
+                <th>Screen Name</th>
+                <th>Collection</th>
+   </tr>
+   </table>
+   </div>
+  
+
+  <div id="theaters" style="display: none;">
+  	<h1>Theaters</h1>
+  	<table id="theaters-table" border="1">
+  	<tr>
+  		<th>#</th>
+  	    <th>Theater Name</th>
+  	    <th>City</th>
+  	    <th>Collection</th>
+  	    <th>Edit</th>
+  	    <th>Remove</th>
+  	</tr>
+  	</table>
+  	
+  	</div>
+   
+  
+  
+   
+   
+   <div id="screen-collection" style="display: none;">
+   <h2></h2>
+   <table id="screen-collection-table" border="1">
+   <tr>
+   		 		<th>#</th>
+                <th>Show Date</th>
+                <th>Show Time</th>
+                <th>Movie</th>
+                <th>Language</th>
+                <th>Status</th>
+                <th>Collection</th>
+   
+   </tr>
+   </table>
+   
+   </div>
+   
+   
+   
+  
+   <div id="screens" style="display: none;">
+  	<h1></h1>
+  	<form id="add-screen-form">
+  	<label for="screen-name">Screen name :  </label>
+  	<input type="text" id="screen-name" name="screen-name" required>
+  	<button id="add-screen-button" type="submit">Add Screen</button>
+  	</form>
+  	<form id="edit-screen-form" style="display: none;">
+  	<label for="edit-screen-name">Screen name :  </label>
+  	<input type="text" id="edit-screen-name" name="edit-screen-name" required>
+  	<button id="edit-screen-button" type="submit">Update Screen</button>
+  	</form>
+  	<h2>Screens</h2>
+  	<table id="screens-table" border="1">
+  	<tr>
+  		<th>#</th>
+  	    <th>Screen</th>
+  	    <th>Collection</th>
+  	    <th>Edit</th>
+  	    <th>Remove</th>
+  	</tr>
+  	</table>
+  	<!--  <ul id="screen-list"></ul>  -->
+  </div>
+  
+  
+  
+  <div id="form-container" style="display: none;">
+  	<h1></h1>
+    <form id="theater-form">
+      <label for="rows">Number of Rows:</label>
+      <input type="number" id="rows" name="rows"  min="1" max="25" required><br>
+	   <br>
+      <label for="columns">Number of Columns:</label>
+      <input type="number" id="columns" name="columns" min="1" max="30" required><br>
+	  <br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  
+ 
+  <div id="seating-container" style="display: none;">
+    <h2>Theater Seating- Draw Aisle</h2>
+    <div id="seating-layout"></div>
+    <h3 id="screen">---Screen this way---</h3>
+    <form id="seat-type-form" method="POST">
+      <label for="vip-rows">Number of VIP Rows (class I):</label>
+      <input type="number" id="vip-rows" name="vip-rows"  value="0" min="0" required><br>
+      <br>
+      <label for="premium-rows">Number of Premium Rows (class II):</label>
+      <input type="number" id="premium-rows" name="premium-rows" value="0" min="0"  required><br>
+      <br>
+      <label for="normal-rows">Number of Normal Rows (class III):</label>
+      <input type="number" id="normal-rows" name="normal-rows" value="0" min="0"  required readonly><br>
+      <br>
+      <button id="confirm-button" type="submit">Confirm</button>
+   </form>
+  </div>
+
+  <div id="result-seating-container" style="display: none;">
+    <h1>Seating Layout</h1>
+    <div id="result-seating-layout"></div>
+    <h3 id="screen">---Screen this way---</h3>
+    <div class="seat vip">&nbsp</div> - VIP<br>
+    <div class="seat premium">&nbsp</div> - Premium<br>
+    <div class="seat ">&nbsp</div> - Normal<br>
+    <br>
+    <button id="reset-seatings-button">Reset Arrangement</button>
+    <button id="edit-seatings-button">Edit</button>
+    <a id="show-details-button" href="javascript:void(0)">Show Details</a>
+  </div>
+  
+  <div id="add-show-div" style="display: none;">
+            	<h1></h1>
+                <form id="add-show-form">
+                <h2>Add Show</h2>
+                <table>
+                <tr><td>
+                <label for="movie-name">Movie </label>
+                </td><td>
+                <input type="text" list="movies" name="movie-name" id="movie-name" autocomplete="off" required>
+  				<datalist id="movies"></datalist>
+                </td></tr>
+                <tr><td>
+                <label for="language">Language</label>
+                </td><td>
+                <select name="language" id="language"  required>
+				</select>
+				</td></tr>
+				<tr><td>
+                <label for="start-date">Start Date</label>
+                </td><td>
+                <input type="date" name="start-date" id="start-date" required><br>
+                </td></tr>
+                <tr><td>
+                <label for="end-date">End Date</label>
+                </td><td>
+                <input type="date" name="end-date" id="end-date"   required><br>
+                </td></tr>
+                <tr><td>
+                <label for="start-time">Start Time</label>
+                </td><td>
+                <input type="time" name="start-time" id="start-time"  required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="show-duration">show-duration<br>*including intervel and cleaning period</label>
+                </td><td>
+                <input type="time" name="show-duration" id="show-duration"  max="05:00" lang="en-US" required><br>
+                </td></tr>
+                <tr><td>
+                <label for="slots">Slots</label>
+                </td><td id="slots-td">
+                </td></tr>
+                <tr><td>
+                <label for="vip-prize">VIP Prize</label>
+                </td><td>
+                <input type="number" name="vip-prize" id="vip-prize" min="100" max="5000" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="premium-prize">Premium Prize</label>
+                </td><td>
+                <input type="number" name="premium-prize" id="premium-prize" min="100" max="5000" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="normal-prize">Normal Prize</label>
+                </td><td>
+                <input type="number" name="normal-prize" id="normal-prize" min="100" max="5000" required ><br>
+                </td></tr> 
+                
+                <tr><td>
+                <label for="vip-cancel">VIP Cancellation Fee(%)</label>
+                </td><td>
+                <input type="number" name="vip-cancel" id="vip-cancel" min="1" max="100" value="25" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="premium-cancel">Premium Cancellation Fee(%)</label>
+                </td><td>
+                <input type="number" name="premium-cancel" id="premium-cancel" min="1" max="100" value="25" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="normal-cancel">Normal Cancellation Fee(%)</label>
+                </td><td>
+                <input type="number" name="normal-cancel" id="normal-cancel" min="1" max="100" value="25" required ><br>
+                </td></tr> 
+                
+                
+                <tr><td></td><td>
+                <button id="add-show-button" type="submit">Add</button>
+                </td></tr>
+                </table>
+                </form> 
+</div> 
+  
+<div id="edit-show-div" style="display: none;">
+            	<h1></h1>
+                <form id="edit-show-form">
+                <h2>Edit Ticket Prize</h2>
+                <table>
+                <tr><td>
+                <label for="edit-movie-name">Movie </label>
+                </td><td>
+                <input type="text" name="movie-name" id="edit-movie-name" autocomplete="off" readonly required>
+                </td></tr>
+                <tr><td>
+                <label for="edit-language">Language</label>
+                </td><td>
+                <select name="language" id="edit-language"  required>
+				</select>
+				</td></tr>
+				<tr><td>
+                <label for="edit-show-date">Show Date</label>
+                </td><td>
+                <input type="date" name="show-date" id="edit-show-date" required readonly><br>
+                </td></tr>
+                <tr><td>
+                <label for="slots">Slots</label>
+                </td><td id="slot-td">
+                </td></tr>
+                
+                
+                <tr><td>
+                <label for="edit-vip-prize">VIP Prize</label>
+                </td><td>
+                <input type="number" name="edit-vip-prize" id="edit-vip-prize" min="1" max="5000" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="edit-premium-prize">Premium Prize</label>
+                </td><td>
+                <input type="number" name="edit-premium-prize" id="edit-premium-prize" min="1" max="5000" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="edit-normal-prize">Normal Prize</label>
+                </td><td>
+                <input type="number" name="edit-normal-prize" id="edit-normal-prize" min="1" max="5000" required ><br>
+                </td></tr> 
+                
+                <tr><td>
+                <label for="edit-vip-cancel">VIP Cancellation Fee(%)</label>
+                </td><td>
+                <input type="number" name="edit-vip-cancel" id="edit-vip-cancel" min="1" max="100" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="edit-premium-cancel">Premium Cancellation Fee(%)</label>
+                </td><td>
+                <input type="number" name="edit-premium-cancel" id="edit-premium-cancel" min="1" max="100" required ><br>
+                </td></tr>
+                <tr><td>
+                <label for="edit-normal-cancel">Normal Cancellation Fee(%)</label>
+                </td><td>
+                <input type="number" name="edit-normal-cancel" id="edit-normal-cancel" min="1" max="100" required ><br>
+                </td></tr> 
+                
+                
+                <tr><td></td><td>
+                <button id="edit-show-button" type="submit">Update</button>
+                </td></tr>
+                </table>
+                </form> 
+</div> 
+
+<div id="show-collection-div" style="display: none;">
+   <h2></h2>
+   <table id="show-collection-table" border="1">
+   		<tr>
+   			<th>User</th>
+   			<th>No: of Tickets</th>
+   			<th>Seats</th>
+   			<th>Status</th>
+   			<th>Booked amount</th>
+   			<th>Refunded</th>
+   			<th>Collection</th>
+   		</tr>
+   </table>
+
+</div>
+
+
+<div id="shows-div" style="display: none;">
+<h2>Shows</h2>
+<table id="shows-table" border="1">
+	<tr>
+			    <th>#</th>
+                <th>Show Date</th>
+                <th>Show Time</th>
+                <th>Movie</th>
+                <th>Language</th>
+                <th>End Time</th>
+                <th>VIP (Rs)</th>
+                <th>Premium (Rs)</th>
+                <th>Normal (Rs)</th>
+                <th>VIP Cancel(%)</th>
+                <th>Premium Cancel(%)</th>
+                <th>Normal Cancel(%)</th>
+                <th>Edit Prizing</th>
+                <th>Collection</th>
+                <th>Action</th>
+  </tr>
+</table>
+</div>
+  
+  
+<br>
+<button id="backButton">Back</button>
+</body>
+</html>
